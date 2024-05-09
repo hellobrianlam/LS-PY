@@ -1,0 +1,22 @@
+{
+	"en": { 
+		"welcome": "Welcome to Calculator!", 
+		"invalid_prompt": "Hmm... that doesn't look like a valid number.",
+		"first_number": "What's the first number?", 
+		"second_number": "What's the second number?",
+		"operator": "What operation would you like to perform? \n1) Add 2) Subtract 3) Multiply 4) Divide)",
+		"invalid_operator": "You must choose 1, 2, 3, or 4",
+		"result": "The result is {output}",
+		"restart": "Performance another calculation? (y/n)"
+	}, 
+	"es": { 
+		"welcome": "Bienvenido a la calculadora!", 
+		"invalid_prompt": "Hmm... eso no parece un número válido.",
+		"first_number": "¿Cuál es el primer número?", 
+		"second_number": "¿Cuál es el segundo número?",
+		"operator": "¿Qué operación te gustaría realizar? \n1) Sumar 2) Restar 3) Multiplicar 4) Dividir",
+		"invalid_operator": "Debes elegir 1, 2, 3 o 4",
+		"result": "El resultado es {output}",
+		"restart": "P¿Rendimiento otro cálculo? (y/n)"
+	}
+}

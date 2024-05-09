@@ -1,7 +1,20 @@
-def prompt(message):
+
+import json
+
+LANGUAGE = 'es'
+
+# Open the JSON file for reading
+with open('prompt.json', 'r') as file:
+    MESSAGES = json.load(file)
+
+def messages(message, lang):
+    return MESSAGES[lang][message]
+
+def prompt(key, output = None):
     '''
     prepend the marker to the front of each output string we pass to print
     '''
+    message = messages(key, LANGUAGE).format(output=output)
     print(f"==> {message}")
 
 def invalid_number(number_str):
@@ -13,60 +26,66 @@ def invalid_number(number_str):
         of invalid number
     '''
     try:
-        int(number_str)
+        float(number_str) 
     except ValueError:
         return True
 
     return False
 
-prompt('Welcome to Calculator!')
-
-prompt("What's the first number?")
-number1 = input()
-
-while invalid_number(number1):
-    '''
-    1. checks whether the input is valid
-    2. the loop ends if the input is valid
-    3. if invalid tells the user that the input is invalid use prompt
-    4. waits for the next input as number1 = input()
-    5. repeated
-    '''
-    prompt("Hmm... that doesn't look like a valid number.")
+# prompt('Welcome to Calculator!')
+# prompt(prompts['welcome'])
+prompt('welcome')
+while True:
+    prompt('first_number')
     number1 = input()
 
-prompt("What's the second number?")
-number2 = input()
+    while invalid_number(number1):
+        '''
+        1. checks whether the input is valid
+        2. the loop ends if the input is valid
+        3. if invalid tells the user that the input is invalid use prompt
+        4. waits for the next input as number1 = input()
+        5. repeated
+        '''
+        prompt('invalid_prompt')
+        number1 = input()
 
-while invalid_number(number2):
-    prompt("Hmm... that doesn't look like a valid number.")
+    prompt('second_number')
     number2 = input()
 
-prompt("""What operation would you like to perform?
-    1) Add 2) Subtract 3) Multiply 4) Divide")""")
-operation = input()
+    while invalid_number(number2):
+        prompt('invalid_prompt')
+        number2 = input()
 
-while operation not in ["1", "2", "3", "4"]:
-    '''
-    similar as the invalid_number function.
-    the loop ends if the input is in ["1", "2", "3", "4"]
-    if invalid then prompt user
-    waits for the next input for operation = input()
-    '''
-    prompt("You must choose 1, 2, 3, or 4")
+    prompt('operator')
     operation = input()
 
-match operation:
-    # Each comparison compares the variable operation with a different value.
-    # This kind of logic is the use-case that the match case statement was
-    # designed to handle
-    case "1":
-        output = int(number1) + int(number2)
-    case "2":
-        output = int(number1) - int(number2)
-    case "3":
-        output = int(number1) * int(number2)
-    case "4":
-        output = int(number1) / int(number2)
+    while operation not in ["1", "2", "3", "4"]:
+        '''
+        similar as the invalid_number function.
+        the loop ends if the input is in ["1", "2", "3", "4"]
+        if invalid then prompt user
+        waits for the next input for operation = input()
+        '''
+        prompt('invalid_operator')
+        operation = input()
 
-prompt(f"The result is {output}")
+    match operation:
+        # Each comparison compares the variable operation with a different value.
+        # This kind of logic is the use-case that the match case statement was
+        # designed to handle
+        case "1":
+            output = float(number1) + float(number2)
+        case "2":
+            output = float(number1) - float(number2)
+        case "3":
+            output = float(number1) * float(number2)
+        case "4":
+            output = float(number1) / float(number2)
+
+    # print(f"The result is {output}")
+    prompt('result', output)
+    prompt('restart')
+    answer = input()
+    if answer and answer.lower() != 'y':
+        break
