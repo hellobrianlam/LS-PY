@@ -7,7 +7,7 @@
 		"operator": "What operation would you like to perform? \n1) Add 2) Subtract 3) Multiply 4) Divide)",
 		"invalid_operator": "You must choose 1, 2, 3, or 4",
 		"result": "The result is {output}",
-		"restart": "Performance another calculation? (y/n)"
+		"restart": "Performance another calculation? (y/n)",
 	}, 
 	"es": { 
 		"welcome": "Bienvenido a la calculadora!", 

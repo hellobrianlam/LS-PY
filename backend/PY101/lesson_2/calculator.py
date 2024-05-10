@@ -32,10 +32,11 @@ def invalid_number(number_str):
 
     return False
 
-# prompt('Welcome to Calculator!')
-# prompt(prompts['welcome'])
+
 prompt('welcome')
 while True:
+
+    print("---------------------------------")
     prompt('first_number')
     number1 = input()
 
@@ -83,9 +84,19 @@ while True:
         case "4":
             output = float(number1) / float(number2)
 
-    # print(f"The result is {output}")
+    output = round(output, 2)  # Round the result to two decimals
+
     prompt('result', output)
+
     prompt('restart')
-    answer = input()
-    if answer and answer.lower() != 'y':
+    answer = input().lower()
+
+    while True:
+        if answer.startswith('n') or answer.startswith('y'):
+            break
+
+        prompt('restart')
+        answer = input().lower()
+
+    if answer[0] != 'y':
         break
