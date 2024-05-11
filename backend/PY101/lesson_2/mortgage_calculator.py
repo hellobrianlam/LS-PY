@@ -22,7 +22,7 @@ def invalid_interest(number_str):
     '''
     try:
         number = float(number_str)
-        if number <= 0:
+        if number < 0:
             raise ValueError
         if number < 1:
             prompt(f'You have entered {number}%, to confirm please enter "y"')
@@ -54,7 +54,7 @@ while True:
     interest_rate = input().strip('%')
 
     while invalid_interest(interest_rate):
-        prompt("Please enter a positive number")
+        prompt("Please enter a non-negative rate")
         interest_rate = input().strip('%')
 
 
@@ -71,18 +71,21 @@ while True:
     month = float(year) * 12
     loan_amount = float(loan_amount)
 
-    monthly_payment = loan_amount * (monthly_interest_rate / 
-        (1 - ( 1+ monthly_interest_rate ) ** (-month)))
+    if monthly_interest_rate > 0:
+        monthly_payment = loan_amount * (monthly_interest_rate / 
+            (1 - ( 1+ monthly_interest_rate ) ** (-month)))
+    else:
+        monthly_payment = loan_amount / month # if 0 interest rate
 
     prompt(f"Your monthly payment is: ${monthly_payment:.2f}")
 
-    prompt("Another calculation?")
+    prompt("Performance another calculation? (y/n)")
     answer = input().lower()
     while True:
         if answer.startswith('n') or answer.startswith('y'):
             break
 
-        prompt('Please enter "y" or "n".')
+        prompt('Performance another calculation? (y/n)')
         answer = input().lower()
 
     if answer[0] == 'n':
