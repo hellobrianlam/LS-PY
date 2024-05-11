@@ -5,6 +5,14 @@ def prompt(message):
     print(f"==> {message}")
 
 def invalid_number(number_str):
+    '''
+    1. the float() function tried to conv the given string to integer.
+    2. if conv is successful, the input is a valid num. return False as
+        it is False of invalid number
+    3. use try/except statement to catch the ValueError and return True 
+        of invalid number
+    4. add a if condition to raise ValueError to non positive number.
+    '''
     try:
         number = float(number_str)
         if number <= 0:
@@ -41,7 +49,7 @@ while True:
     prompt("---------------------------------")
 
     # prompt user to enter the loan amount and check if the input is valid
-    prompt('What is your loan ammount') 
+    prompt('What is your loan ammount')
     loan_amount = input()
 
     while invalid_number(loan_amount):
@@ -72,7 +80,7 @@ while True:
     loan_amount = float(loan_amount)
 
     if monthly_interest_rate > 0:
-        monthly_payment = loan_amount * (monthly_interest_rate / 
+        monthly_payment = loan_amount * (monthly_interest_rate /
             (1 - ( 1+ monthly_interest_rate ) ** (-month)))
     else:
         monthly_payment = loan_amount / month # if 0 interest rate
