@@ -32,10 +32,9 @@ def invalid_number(number_str):
 
     return False
 
-
 prompt('welcome')
-while True:
 
+while True:
     print("---------------------------------")
     prompt('first_number')
     number1 = input()
