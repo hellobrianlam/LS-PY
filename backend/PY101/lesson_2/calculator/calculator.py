@@ -1,17 +1,25 @@
 import json
+import operator
 
 # Load messages from JSON file
 with open('prompt.json', 'r') as file:
     MESSAGES = json.load(file)
 
-def get_message(message_key, lang, **kwargs):
-    return MESSAGES[lang][message_key].format(**kwargs)
+# Define global variables
+ROUND_VALUE = 2
+LANGUAGE = 'en'
 
-def prompt(key, lang, **kwargs):
+def get_message(message_key, lang, output=None):
+    message = MESSAGES[lang][message_key]
+    if output is not None:
+        message = message.format(output=output)
+    return message
+
+def prompt(key, lang, output=None):
     '''
     Prepend the marker to the front of each output string we pass to print
     '''
-    message = get_message(key, lang, **kwargs)
+    message = get_message(key, lang, output)
     print(f"==> {message}")
 
 def is_invalid_number(number_str):
@@ -30,22 +38,41 @@ def get_valid_number(prompt_key, lang):
     '''
     while True:
         prompt(prompt_key, lang)
-        user_input = input()
+        user_input = input().strip()
         if not is_invalid_number(user_input):
             return float(user_input)
         prompt('invalid_prompt', lang)
 
 def get_valid_operator(lang):
     '''
-    Repeatedly prompt the user for a valid operator input until a valid one is provided.
+    Repeatedly prompt the user for a valid operator input until a valid one 
+    is provided.
     '''
-    valid_operators = {"1", "2", "3", "4"}
+    valid_operators = {
+        "1": "add", "2": "sub", "3": "mul", "4": "truediv",
+        "+": "add", "-": "sub", "*": "mul", "/": "truediv"
+    }
     while True:
         prompt('operator', lang)
-        operation = input()
+        operation = input().strip()
         if operation in valid_operators:
-            return operation
+            return valid_operators[operation]
         prompt('invalid_operator', lang)
+
+def check_zero_division(number2, operation, lang):
+    '''
+    Checks if the operation is division by zero.
+    '''
+    if zero_division(number2, operation):
+        prompt('zero_error', lang)
+        return True
+    return False
+
+def zero_division(number2, operation):
+    '''
+    Checks if the operation is division by 0.
+    '''
+    return number2 == 0 and operation == 'truediv'
 
 def get_numbers(lang):
     '''
@@ -60,38 +87,80 @@ def calculate_result(number1, number2, operation):
     Perform the calculation based on the chosen operator.
     '''
     operations = {
-        "1": number1 + number2,
-        "2": number1 - number2,
-        "3": number1 * number2,
-        "4": number1 / number2
+        "add": operator.add,
+        "sub": operator.sub,
+        "mul": operator.mul,
+        "truediv": operator.truediv
     }
-    return round(operations[operation], 2)
+    result = operations[operation](number1, number2)
+    return round(result, ROUND_VALUE)
+
+def change_language():
+    global LANGUAGE
+    while True:
+        prompt('change_lang', LANGUAGE)
+        lang = input().strip().lower()
+        if lang in {'en', 'es'}:
+            LANGUAGE = lang
+            break
+        prompt('lang_error', LANGUAGE)
+
+def change_rounding():
+    global ROUND_VALUE
+    while True:
+        prompt('change_rounding', LANGUAGE)
+        try:
+            new_round = int(input().strip())
+            if new_round > 0:
+                ROUND_VALUE = new_round
+                break
+            raise ValueError
+        except ValueError:
+            prompt('invalid_number', LANGUAGE)
+
+def config_options():
+    while True:
+        prompt('config', LANGUAGE)
+        choice = input().strip().lower()
+        if choice == '1':
+            change_language()
+        elif choice == '2':
+            change_rounding()
+        elif choice == '3':
+            break
+        else:
+            prompt('invalid_option', LANGUAGE)
+
+def restart(lang):
+    '''
+    Prompt the user to see if they want to perform another calculation.
+    '''
+    prompt('restart', lang)
+    answer = input().strip().lower()
+    return answer in MESSAGES[lang]['yes']
 
 def main():
-    # Display the welcome message in the chosen language
-    prompt('welcome', lang = 'en')
+    prompt('welcome', LANGUAGE)
 
-    # Prompt user for language selection
-    lang = input("Choose language ('en' for English, 'es' for Spanish): ").strip().lower()
-    while lang not in {'en', 'es'}:
-        lang = input("Invalid choice. Please choose 'en' for English or 'es' for Spanish: ").strip().lower()
+    config_options()
 
-
-    
     while True:
         print("---------------------------------")
-        number1, number2 = get_numbers(lang)
-        operation = get_valid_operator(lang)
-        result = calculate_result(number1, number2, operation)
-        prompt('result', lang, output=result)
+        number1, number2 = get_numbers(LANGUAGE)
+        operation = get_valid_operator(LANGUAGE)
 
-        prompt('restart', lang)
-        answer = input().lower()
-        while answer not in {'y', 'n'}:
-            prompt('restart', lang)
-            answer = input().lower()
-        if answer == 'n':
+        if check_zero_division(number2, operation, LANGUAGE):
+            if not restart(LANGUAGE):
+                break
+            continue  # Restart the calculation
+
+        result = calculate_result(number1, number2, operation)
+        prompt('result', LANGUAGE, output=result)
+
+        if not restart(LANGUAGE):
             break
+
+    prompt('bye', LANGUAGE)
 
 if __name__ == "__main__":
     main()

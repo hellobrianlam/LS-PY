@@ -1,3 +1,33 @@
+# Calculator
+
+## Description
+This is a simple calculator program that performs basic arithmetic operations such as addition, subtraction, multiplication, and division. The program supports both English and Spanish languages for user prompts.
+
+## Assignment
+This project is an assignment from Launch School Course PY101, Lesson 2.
+
+## Features
+- Supports addition, subtraction, multiplication, and division operations.
+- Provides user prompts in English and Spanish.
+- Validates user input for numbers and operators.
+- Allows users to perform multiple calculations in a single session.
+
+## Requirements
+- Python 3.10
+
+## Installation
+1. Clone the repository or download the source code.
+
+```bash
+git clone https://github.com/hellobrianlam/LS-PY.git
+cd backend/PY101/lesson_2/calculator/
+```
+
+2. Ensure you have Python 3.10 installed on your system. You can download it from python.org.
+
+3. Make sure you have the prompt.json file in the same directory as the Python script. The prompt.json file should contain the following content:
+
+```json
 {
     "en": { 
         "welcome": "Welcome to Calculator!", 
@@ -38,3 +68,35 @@
         "invalid_option": "Elección inválida. Por favor seleccione 1, 2 o 3."
     }
 }
+```
+
+## Usage
+1. Run the calculator.py script.
+```bash
+python calculator.py
+```
+2. The program will display a welcome message in English and prompt you to choose a language ('en' for English, 'es' for Spanish).
+
+3. Follow the prompts to enter the first number, the second number, and the operation you would like to perform.
+
+4. The program will display the result and ask if you want to perform another calculation.
+
+5. Enter 'y' to perform another calculation or 'n' to exit the program.
+
+
+```plaintext
+==> Welcome to Calculator!
+Choose language ('en' for English, 'es' for Spanish): es
+==> ¡Bienvenido a la calculadora!
+---------------------------------
+==> ¿Cuál es el primer número?
+10
+==> ¿Cuál es el segundo número?
+20
+==> ¿Qué operación te gustaría realizar? 
+1) Sumar 2) Restar 3) Multiplicar 4) Dividir
+1
+==> El resultado es 30.0
+==> ¿Realizar otro cálculo? (y/n)
+n
+```
