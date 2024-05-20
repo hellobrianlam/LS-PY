@@ -3,13 +3,13 @@
 ## Description
 This is a simple calculator program that performs basic arithmetic operations such as addition, subtraction, multiplication, and division. The program supports both English and Spanish languages for user prompts.
 
-## Assignment
 This project is an assignment from Launch School Course PY101, Lesson 2.
 
 ## Features
 - Supports addition, subtraction, multiplication, and division operations.
 - Provides user prompts in English and Spanish.
 - Validates user input for numbers and operators.
+- Allowd userd to adjust rounding.
 - Allows users to perform multiple calculations in a single session.
 
 ## Requirements
@@ -94,7 +94,7 @@ Choose language ('en' for English, 'es' for Spanish): es
 ==> ¿Cuál es el segundo número?
 20
 ==> ¿Qué operación te gustaría realizar? 
-1) Sumar 2) Restar 3) Multiplicar 4) Dividir
+1[+]) Sumar 2[-]) Restar 3[*]) Multiplicar 4[/]) Dividir
 1
 ==> El resultado es 30.0
 ==> ¿Realizar otro cálculo? (y/n)
