@@ -139,28 +139,28 @@ def restart(lang):
     answer = input().strip().lower()
     return answer in MESSAGES[lang]['yes']
 
+def calculate():
+    print("---------------------------------")
+    number1, number2 = get_numbers(LANGUAGE)
+    operation = get_valid_operator(LANGUAGE)
+
+    if check_zero_division(number2, operation, LANGUAGE):
+        if not restart(LANGUAGE):
+            return
+        calculate()  # Restart the calculation
+
+    result = calculate_result(number1, number2, operation)
+    prompt('result', LANGUAGE, output=result)
+
+    if restart(LANGUAGE):
+        calculate()
+    else:
+        prompt('bye', LANGUAGE)
+
 def main():
     prompt('welcome', LANGUAGE)
-
     config_options()
-
-    while True:
-        print("---------------------------------")
-        number1, number2 = get_numbers(LANGUAGE)
-        operation = get_valid_operator(LANGUAGE)
-
-        if check_zero_division(number2, operation, LANGUAGE):
-            if not restart(LANGUAGE):
-                break
-            continue  # Restart the calculation
-
-        result = calculate_result(number1, number2, operation)
-        prompt('result', LANGUAGE, output=result)
-
-        if not restart(LANGUAGE):
-            break
-
-    prompt('bye', LANGUAGE)
+    calculate()
 
 if __name__ == "__main__":
     main()
